@@ -1,24 +1,14 @@
 <script setup>
 import ChatBotBlock from './components/ChatBot.vue'
 import ChatField from './components/ChatField.vue'
-import MessageItem from './components/MessageItem.vue'
-import { ref, render, h } from 'vue'
+import { useMessagesStore } from './stores/messages'
+import { ref } from 'vue'
 
+const store = useMessagesStore()
 const formRef = ref(null)
 
-// onMounted(() => {
-//   console.log(formRef)
-// })
-
 function handlerClick(ref) {
-  const messageList = document.querySelector('.message-list')
-  MessageItem.textContent = ref.children[0].value
-  const itemMessage = Object.assign(MessageItem, {})
-  const newComponent = h(itemMessage, { text: ref.children[0].value })
-  console.log(newComponent)
-
-  // Append it to p (which is an HTML Element)
-  render(newComponent, messageList)
+  store.addMessage({ author: 'human', text: ref.children[0].value })
 }
 </script>
 
@@ -26,7 +16,8 @@ function handlerClick(ref) {
   <ChatBotBlock class="title" msg="Закажи пиццу!" />
 
   <div class="card p-4">
-    <ChatField />
+    <ChatField v-bind:messages-data="store.messages" />
+
     <from class="form" ref="formRef">
       <textarea
         class="form-control"
@@ -61,12 +52,12 @@ function handlerClick(ref) {
   overflow-y: auto;
 }
 .btn-send {
-  color: #38b405;
-  border-color: #38b405;
+  color: #11d29e;
+  border-color: #11d29e;
 }
 .btn-send:hover {
   color: #fff;
-  border-color: #38b405;
-  background-color: #38b405;
+  border-color: #11d29e;
+  background-color: #11d29e;
 }
 </style>

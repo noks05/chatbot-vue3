@@ -52,3 +52,12 @@ textarea {
   -webkit-appearance: none;
   -moz-appearance: none;
 }
+
+textarea:focus {
+  border-color: #11d29e !important;
+  box-shadow: none !important;
+}
+
+button:focus {
+  box-shadow: 0 0 0 0.25rem rgb(17 210 158 / 25%) !important;
+}

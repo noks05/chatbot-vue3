@@ -1,13 +1,28 @@
 <script setup>
-import Avatar from './icons/IconDocumentation.vue'
-import MessageList from './MessageList.vue'
+import Robot from './icons/IconRobot.vue'
+import User from './icons/IconUser.vue'
+import MessageTexts from './MessageTexts.vue'
+
+defineProps({
+  messagesData: {
+    type: Array,
+    required: true
+  }
+})
 </script>
 
 <template>
   <div class="chat-field">
-    <div class="message-wrapper">
-      <MessageList />
-      <div class="avatar"><Avatar /></div>
+    <div
+      v-bind:class="['message-wrapper', item.author === 'bot' ? 'bot-response' : ''].join(' ')"
+      v-for="item in messagesData"
+      :key="item.id"
+    >
+      <MessageTexts v-bind:texts="item.texts" />
+      <div class="avatar">
+        <Robot v-if="item.author === 'bot'" />
+        <User v-if="item.author !== 'bot'" />
+      </div>
     </div>
   </div>
 </template>
@@ -24,11 +39,13 @@ import MessageList from './MessageList.vue'
 .message-wrapper {
   display: flex;
   flex-wrap: nowrap;
+  justify-content: right;
   max-width: 300px;
   margin-bottom: 20px;
 }
-.response.message-wrapper {
+.bot-response.message-wrapper {
   flex-direction: row-reverse;
+  justify-content: left;
 }
 
 .avatar {
