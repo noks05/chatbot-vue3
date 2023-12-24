@@ -8,7 +8,9 @@ const store = useMessagesStore()
 const formRef = ref(null)
 
 function handlerClick(ref) {
-  store.addMessage({ author: 'human', text: ref.children[0].value })
+  const value = ref.children[0].value.trim()
+  if (!value.length) return
+  store.addMessage({ author: 'human', text: value })
 }
 </script>
 
@@ -25,6 +27,7 @@ function handlerClick(ref) {
         rows="2"
         placeholder="Сообщение..."
       ></textarea>
+
       <button class="btn btn-send" type="submit" @click="() => handlerClick(formRef)">
         Отправить
       </button>
@@ -42,6 +45,7 @@ function handlerClick(ref) {
 }
 .form {
   display: flex;
+  margin-top: 20px;
 }
 .form-control {
   height: 40px;
@@ -51,6 +55,10 @@ function handlerClick(ref) {
   overflow: hidden;
   overflow-y: auto;
 }
+.form-control:focus {
+  border-color: #11d29e;
+  box-shadow: none;
+}
 .btn-send {
   color: #11d29e;
   border-color: #11d29e;
@@ -59,5 +67,8 @@ function handlerClick(ref) {
   color: #fff;
   border-color: #11d29e;
   background-color: #11d29e;
+}
+.btn-send:focus {
+  box-shadow: 0 0 0 0.25rem rgb(17 210 158 / 25%);
 }
 </style>

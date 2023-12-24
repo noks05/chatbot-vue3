@@ -14,8 +14,6 @@ export const useMessagesStore = defineStore('counter', {
   actions: {
     addMessage(newMessage) {
 
-      // console.log(this.messages)]
-
       const lastIndex = this.messages.length - 1
       const firstPart = this.messages.slice(0, lastIndex)
       const lastMessage = this.messages[lastIndex]

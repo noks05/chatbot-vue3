@@ -8,7 +8,7 @@ defineProps({
 </script>
 
 <template>
-  <li class="message-item">
+  <li class="message-item animate__animated animate__fadeInDown">
     <span>
       {{ text }}
     </span>
@@ -20,7 +20,6 @@ defineProps({
   display: flex;
   align-items: center;
   justify-content: right;
-  margin: 0px 5px;
   margin-bottom: 3px;
 }
 .bot-response .message-item {
@@ -37,5 +36,14 @@ defineProps({
 .bot-response .message-item span {
   background-color: #11d29e;
   color: #fff;
+}
+
+@keyframes example {
+  from {
+    background-color: red;
+  }
+  to {
+    background-color: yellow;
+  }
 }
 </style>
