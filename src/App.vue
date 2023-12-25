@@ -1,44 +1,27 @@
 <script setup>
-import ChatBotBlock from './components/ChatBot.vue'
-import ChatField from './components/ChatField.vue'
+import TitleChatBot from './components/TitleChatBot.vue'
+import MessageField from './components/MessageField.vue'
+import MessageForm from './components/MessageForm.vue'
 import { useMessagesStore } from './stores/messages'
-import { ref } from 'vue'
 
 const store = useMessagesStore()
-const formRef = ref(null)
-
-function handlerClick(ref) {
-  const value = ref.children[0].value.trim()
-  if (!value.length) return
-  store.addMessage({ author: 'human', text: value })
-}
 </script>
 
 <template>
-  <ChatBotBlock class="title" msg="Закажи пиццу!" />
+  <TitleChatBot class="title" textTitle="Chatbot listens to you:)" />
 
   <div class="card p-4">
-    <ChatField v-bind:messages-data="store.messages" />
+    <MessageField v-bind:messages-data="store.messages" />
 
-    <from class="form" ref="formRef">
-      <textarea
-        class="form-control"
-        id="exampleFormControlTextarea1"
-        rows="2"
-        placeholder="Сообщение..."
-      ></textarea>
-
-      <button class="btn btn-send" type="submit" @click="() => handlerClick(formRef)">
-        Отправить
-      </button>
-    </from>
+    <MessageForm v-bind:actionDialog="store.actionDialogWithBot" />
   </div>
 </template>
 
 <style scoped>
 .card {
-  background-color: rgb(243 243 243);
   border: 0;
+  background-color: rgb(243 243 243);
+  box-shadow: 0 7px 10px 2px #dadada;
 }
 .title {
   margin-bottom: 20px;

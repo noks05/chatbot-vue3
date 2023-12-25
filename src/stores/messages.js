@@ -4,37 +4,64 @@ import { generateId } from '../utils/generateRandomId'
 export const useMessagesStore = defineStore('counter', {
   state: () => ({
     messages: [
-
       {
         author: 'bot',
         texts: ['Привет! Что я могу для Вас сделать?']
       }
-    ].map(obj => generateId(obj))
+    ].map(obj => generateId(obj)),
+
+    questions: {
+      status: true,
+      text: ['Заказать пиццу', 'Установить будильник', 'Вывести погоду']
+    }
   }),
   actions: {
-    addMessage(newMessage) {
+    actionDialogWithBot(text) {
 
-      const lastIndex = this.messages.length - 1
-      const firstPart = this.messages.slice(0, lastIndex)
-      const lastMessage = this.messages[lastIndex]
+      const botResponse = ['закажу пиццу', 'установлю будильник', 'выведу погоду']
 
-      if (lastMessage.author === newMessage.author) {
-        this.messages = [
-          ...firstPart,
-          {
-            author: lastMessage.author,
-            texts: [...lastMessage.texts, newMessage.text]
-          }
-        ]
-      } else {
-        this.messages = [
-          ...this.messages,
-          {
-            author: newMessage.author,
-            texts: [newMessage.text]
-          }
-        ]
+      const index = this.questions.text.indexOf(text)
+      let respBot = 'Простите, не разобрал вашу просьбу :( , попробуйте снова!'
+      if (index >= 0) {
+        respBot = `Хорошо, я ${botResponse[index]}. Что еще могу сделать?`
       }
+      setTimeout(
+        () =>
+          this.changeStatusQuestions(),
+        1300
+        // убираем блог с вопросами бота позже появления новых сообщений,
+        //  чтобы  не было неприятного скачка по высоте
+      )
+      setTimeout(
+        () => (
+          this.messages = [
+            ...this.messages,
+            {
+              author: 'human',
+              texts: [text]
+            }
+          ]
+        ),
+        600
+      )
+      setTimeout(
+        () => (
+          this.messages = [
+            ...this.messages,
+            {
+              author: 'bot',
+              texts: [respBot]
+            }
+          ],
+          this.changeStatusQuestions()
+        ),
+        1200
+      )
+
+    },
+
+    changeStatusQuestions() {
+      this.questions.status = !this.questions.status
     },
   },
 })

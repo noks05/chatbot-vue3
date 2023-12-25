@@ -2,12 +2,10 @@
 import Robot from './icons/IconRobot.vue'
 import User from './icons/IconUser.vue'
 import MessageTexts from './MessageTexts.vue'
-import Simplebar from 'simplebar-vue'
-import BotQuestions from './BotQuestions.vue'
 import 'simplebar-vue/dist/simplebar.min.css'
 
 defineProps({
-  messagesData: {
+  messages: {
     type: Array,
     required: true
   }
@@ -15,36 +13,26 @@ defineProps({
 </script>
 
 <template>
-  <Simplebar>
-    <div class="chat-field">
-      <div
-        v-bind:class="['message-wrapper', item.author === 'bot' ? 'bot-response' : ''].join(' ')"
-        v-for="item in messagesData"
-        :key="item.id"
-      >
-        <MessageTexts v-bind:texts="item.texts" />
+  <div
+    v-bind:class="
+      [
+        'message-wrapper',
+        message.author === 'bot' ? 'bot-response' : ''
+      ].join(' ')
+    "
+    v-for="message in messages"
+    :key="message.id"
+  >
+    <MessageTexts v-bind:texts="message.texts" />
 
-        <div class="avatar animate__animated animate__zoomIn">
-          <Robot v-if="item.author === 'bot'" />
-          <User v-if="item.author !== 'bot'" />
-        </div>
-      </div>
-
-      <BotQuestions v-if="messagesData[messagesData.length - 1].author === 'bot'" />
+    <div class="avatar animate__animated animate__zoomIn">
+      <Robot v-if="message.author === 'bot'" />
+      <User v-if="message.author !== 'bot'" />
     </div>
-  </Simplebar>
+  </div>
 </template>
 
 <style scoped>
-.chat-field {
-  min-height: 400px;
-  max-height: 400px;
-  width: 100%;
-  padding: 3px 10px;
-}
-[data-simplebar='init'] {
-  max-height: 400px !important;
-}
 .message-wrapper {
   display: flex;
   flex-wrap: nowrap;

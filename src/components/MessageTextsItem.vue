@@ -37,13 +37,4 @@ defineProps({
   background-color: #11d29e;
   color: #fff;
 }
-
-@keyframes example {
-  from {
-    background-color: red;
-  }
-  to {
-    background-color: yellow;
-  }
-}
 </style>

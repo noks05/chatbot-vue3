@@ -1,37 +1,28 @@
 <script setup>
 import { useMessagesStore } from '../stores/messages'
 
-const botResponse = ['закажу пиццу', 'установлю будильник', 'выведу погоду']
-const items = ['Заказать пиццу', 'Установить будильник', 'Вывести погоду']
-
 const store = useMessagesStore()
 
 function handlerClick(event) {
   const target = event.target
-  const index = items.indexOf(target.textContent)
-  const indexEl = index >= 0 ? index : 'это сделаю'
-  store.addMessage({ author: 'human', text: target.textContent })
-  setTimeout(
-    () =>
-      store.addMessage({
-        author: 'bot',
-        text: `Хорошо, я ${botResponse[indexEl]}. Что еще могу сделать?`
-      }),
-    1200
-  )
+  event.target.parentNode.classList.add('animate__fadeOutLeft')
+  store.actionDialogWithBot(target.textContent)
 }
 </script>
 
 <template>
-  <div class="quest-list animate__animated animate__fadeInLeft">
+  <div
+    class="quest-list animate__animated animate__fadeInLeft"
+    v-if="store.questions.status"
+  >
     <button
       class="quest-item btn btn-outline-dark"
       type="button"
-      v-for="item in items"
-      :key="item"
+      v-for="quest in store.questions.text"
+      :key="quest"
       @click="handlerClick"
     >
-      {{ item }}
+      {{ quest }}
     </button>
   </div>
 </template>
